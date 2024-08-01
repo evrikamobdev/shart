@@ -411,36 +411,3 @@ class _CreateLoanScreenState extends State<CreateLoanScreen> {
     );
   }
 }
-
-class CheckListTile<T> extends StatelessWidget {
-  const CheckListTile({
-    super.key,
-    required this.value,
-    required this.groupValue,
-    required this.onChanged,
-    required this.title,
-    required this.activeIcon,
-    required this.inactiveIcon,
-  });
-
-  final T value;
-  final T groupValue;
-  final ValueChanged<T?> onChanged;
-  final Widget title;
-  final Widget activeIcon;
-  final Widget inactiveIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        onChanged(value);
-      },
-      title: title,
-      leading: value == groupValue ? activeIcon : inactiveIcon,
-      contentPadding: EdgeInsets.only(left: 0, right: 0),
-      visualDensity: VisualDensity(vertical: -2),
-      minLeadingWidth: 8,
-    );
-  }
-}

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shart/home_screen.dart';
-import 'package:shart/screens/auth/login_screen.dart';
+import 'package:shart/screens/auth/splash_screen.dart';
 import 'package:shart/styling/shart_theme.dart';
 
 void main() {
@@ -13,7 +12,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
       title: '',
       theme: shartTheme,

@@ -1,8 +1,8 @@
-// ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shart/home_screen.dart';
+import 'package:shart/screens/auth/signup_screen.dart';
 import 'package:shart/styling/shart_colors.dart';
 import 'package:shart/widgets/helpers.dart';
 
@@ -62,20 +62,42 @@ class _LoginScreenState extends State<LoginScreen> {
                       inputFormatters: [maskFormatter],
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                          borderSide: BorderSide(
+                              color: ShartColors.neutral4, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                          borderSide: BorderSide(
+                              color: ShartColors.primaryColor, width: 1.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                          borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                          borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
                         labelText: 'Введите номер телефона',
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(156, 165, 172, 1),
+                        ),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                       ),
                       validator: validateMobile,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                     onFocusChange: (hasFocus) {
                       if (hasFocus) {
                         if (maskFormatter.getMaskedText().isEmpty) {
                           _phone.text = '+7 (';
                         }
-                        // else {
-                        //   _phone.text = maskFormatter.getMaskedText();
-                        // }
                       }
                     },
                   ),
@@ -92,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: _password,
                     obscureText: _hidePassword,
+                    obscuringCharacter: '*',
                     keyboardType: TextInputType.text,
                     style: TextStyle(
                       fontSize: 16,
@@ -99,15 +122,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: ShartColors.neutralBlack,
                     ),
                     decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.0),
+                        borderSide:
+                            BorderSide(color: ShartColors.neutral4, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.0),
+                        borderSide: BorderSide(
+                            color: ShartColors.primaryColor, width: 1.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.0),
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                       labelText: 'Введите пароль',
+                      labelStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(156, 165, 172, 1),
+                      ),
                       counterText: "",
                       suffixIcon: IconButton(
-                        icon: Icon(
+                        icon: SvgPicture.asset(
                           _hidePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                              ? 'assets/ic_visibility.svg'
+                              : 'assets/ic_visibility_off.svg',
                         ),
                         onPressed: () {
                           setState(() {
@@ -116,7 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                     ),
-                    validator: validateRequiredField,
+                    validator: validatePassword,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
                   SizedBox(height: 6.0),
                   Text(
@@ -135,6 +179,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         _logIn();
                       },
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                        ),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                         child: Text(
@@ -143,13 +194,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
                           ),
                         ),
                       ),
@@ -168,15 +212,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 8.0),
                   Center(
-                    child: Text(
-                      'Зарегистрироваться',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromRGBO(58, 112, 226, 1),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) => SignupScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Зарегистрироваться',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromRGBO(58, 112, 226, 1),
+                        ),
                       ),
                     ),
                   ),
+                  SizedBox(height: 32.0),
                 ],
               ),
             ),

@@ -12,16 +12,16 @@ ElevatedButtonThemeData _elevatedButtonThemeData = ElevatedButtonThemeData(
   style: ButtonStyle(
     elevation: MaterialStateProperty.all(0),
     splashFactory: NoSplash.splashFactory,
-    // minimumSize: MaterialStateProperty.all(
-    //   Size(double.infinity, 50),
-    // ),
+    minimumSize: MaterialStateProperty.all(
+      Size(double.infinity, 50),
+    ),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
     ),
     textStyle: MaterialStateProperty.all(
-      TextStyle(fontSize: 14),
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
     ),
   ),
 );
