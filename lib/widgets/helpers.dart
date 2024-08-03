@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shart/styling/shart_colors.dart';
@@ -8,6 +9,10 @@ var maskFormatter = MaskTextInputFormatter(
   filter: {
     "#": RegExp(r'[0-9]'),
   },
+);
+
+var inputDenySpace = FilteringTextInputFormatter.deny(
+  RegExp(r' '),
 );
 
 String? validateMobile(value) {
@@ -32,11 +37,21 @@ String? validatePassword(String? value) {
   return null;
 }
 
-String formatDuration(duration) {
-  String twoDigits(int n) => n.toString().padLeft(2, "0");
-  // String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-  return twoDigitSeconds;
+String formatDuration(Duration duration) {
+  String seconds = duration.inSeconds.remainder(60).toString();
+  return seconds;
+}
+
+navigatePush(
+  BuildContext context,
+  Widget target,
+) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => target,
+    ),
+  );
 }
 
 class CheckListTile<T> extends StatelessWidget {

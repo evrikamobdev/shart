@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shart/home_screen.dart';
+import 'package:shart/screens/auth/reset_password_screen.dart';
 import 'package:shart/screens/auth/signup_screen.dart';
 import 'package:shart/styling/shart_colors.dart';
 import 'package:shart/widgets/helpers.dart';
@@ -62,24 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       inputFormatters: [maskFormatter],
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          borderSide: BorderSide(
-                              color: ShartColors.neutral4, width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          borderSide: BorderSide(
-                              color: ShartColors.primaryColor, width: 1.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          borderSide: BorderSide(color: Colors.red, width: 1.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          borderSide: BorderSide(color: Colors.red, width: 1.0),
-                        ),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         labelText: 'Введите номер телефона',
                         labelStyle: TextStyle(
@@ -91,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                       ),
                       validator: validateMobile,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      // autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                     onFocusChange: (hasFocus) {
                       if (hasFocus) {
@@ -122,20 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: ShartColors.neutralBlack,
                     ),
                     decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        borderSide:
-                            BorderSide(color: ShartColors.neutral4, width: 1.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        borderSide: BorderSide(
-                            color: ShartColors.primaryColor, width: 1.0),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                      ),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 18, horizontal: 16),
@@ -159,17 +129,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                     ),
-                    validator: validatePassword,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: validateRequiredField,
+                    // autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
                   SizedBox(height: 6.0),
-                  Text(
-                    'Забыли пароль?',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(58, 112, 226, 1),
+                  GestureDetector(
+                    onTap: () {
+                      navigatePush(context, ResetPasswordScreen());
+                    },
+                    child: Text(
+                      'Забыли пароль?',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(58, 112, 226, 1),
+                      ),
                     ),
                   ),
                   SizedBox(height: 24.0),

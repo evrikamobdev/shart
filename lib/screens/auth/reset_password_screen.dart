@@ -3,18 +3,18 @@ import 'package:shart/screens/auth/code_verification_screen.dart';
 import 'package:shart/styling/shart_colors.dart';
 import 'package:shart/widgets/helpers.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _phone = TextEditingController();
 
-  void _signup() async {
+  void _reset() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (_formKey.currentState!.validate()) {
       Navigator.push(
@@ -22,7 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => CodeVerificationScreen(
             phone: '7${maskFormatter.getUnmaskedText()}',
-            page: 'signup',
+            page: 'reset',
           ),
         ),
       );
@@ -33,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithBackBtn('Регистрация', context),
+      appBar: appBarWithBackBtn('Восстановление пароля', context),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -84,7 +84,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(height: 24.0),
                   ElevatedButton(
                     onPressed: () {
-                      _signup();
+                      _reset();
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(

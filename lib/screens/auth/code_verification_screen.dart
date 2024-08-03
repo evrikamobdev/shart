@@ -1,12 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shart/screens/auth/set_password_screen.dart';
 import 'package:shart/styling/shart_colors.dart';
 import 'package:shart/widgets/helpers.dart';
 
 class CodeVerificationScreen extends StatefulWidget {
-  const CodeVerificationScreen({super.key});
+  final String phone;
+  final String page;
+  const CodeVerificationScreen(
+      {super.key, required this.phone, required this.page});
 
   @override
   State<CodeVerificationScreen> createState() => _CodeVerificationScreenState();
@@ -17,11 +22,12 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
   StreamController<ErrorAnimationType> errorController =
       StreamController<ErrorAnimationType>();
 
+  String phone = '';
+
   bool hasError = false;
   String currentText = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  bool _loading = false;
   bool codeEntered = false;
 
   Timer? _timer;
@@ -31,6 +37,12 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
   @override
   void initState() {
     super.initState();
+
+    phone = MaskTextInputFormatter(
+      mask: '+# (###) ### ## ##',
+      initialText: widget.phone,
+    ).getMaskedText();
+
     startTimer();
     errorController = StreamController<ErrorAnimationType>();
   }
@@ -69,18 +81,28 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
     if (currentText.length == 4) {
       setState(() {
         hasError = false;
-        _loading = true;
       });
+      try {
+        navigatePush(context, SetPasswordScreen(page: widget.page));
+      } catch (e) {
+        // Toast.error(context, e.toString());
+      } finally {}
     }
   }
 
-  void _sendAgain() async {}
+  void _sendAgain() async {
+    //API request
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithBackBtn('Подтверждение номера', context),
+      appBar: appBarWithBackBtn(
+          widget.page == 'signup'
+              ? 'Подтверждение номера'
+              : 'Восстановление пароля',
+          context),
       body: Padding(
         padding: const EdgeInsets.only(
             left: 16.0, top: 32.0, right: 16.0, bottom: 32.0),
@@ -110,7 +132,7 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    '+7 (701) 717 33 77',
+                    phone,
                     style: TextStyle(
                       color: ShartColors.neutralBlack,
                       fontSize: 14,
@@ -122,8 +144,9 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
             ),
             SizedBox(height: 32.0),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 70),
+              padding: EdgeInsets.symmetric(horizontal: 60),
               child: PinCodeTextField(
+                cursorHeight: 18,
                 autoFocus: true,
                 autoDisposeControllers: false,
                 appContext: context,
@@ -139,18 +162,31 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                   }
                 },
                 pinTheme: PinTheme(
+                  fieldWidth: 56,
+                  fieldHeight: 57,
                   borderWidth: 1,
-                  activeColor:
-                      codeEntered ? Colors.grey : ShartColors.primaryColor,
+                  selectedBorderWidth: 1,
+                  activeBorderWidth: 1,
+                  errorBorderWidth: 1,
+                  inactiveBorderWidth: 1,
+                  disabledBorderWidth: 1,
+                  activeColor: codeEntered
+                      ? ShartColors.neutral4
+                      : ShartColors.primaryColor,
                   selectedColor: ShartColors.primaryColor,
                   selectedFillColor: Colors.white,
-                  inactiveColor: Colors.grey,
+                  inactiveColor: ShartColors.neutral4,
                   inactiveFillColor: Colors.white,
                   shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(6.0),
                   activeFillColor: Colors.white,
                 ),
-                cursorColor: Colors.black,
+                textStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: ShartColors.neutralBlack,
+                ),
+                cursorColor: ShartColors.neutralBlack,
                 animationDuration: const Duration(milliseconds: 100),
                 enableActiveFill: true,
                 errorAnimationController: errorController,
@@ -172,6 +208,7 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                 },
               ),
             ),
+            SizedBox(height: 8.0),
             sendAgain
                 ? InkWell(
                     onTap: () {

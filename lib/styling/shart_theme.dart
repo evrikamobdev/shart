@@ -17,7 +17,7 @@ ElevatedButtonThemeData _elevatedButtonThemeData = ElevatedButtonThemeData(
     ),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(6.0),
       ),
     ),
     textStyle: MaterialStateProperty.all(
@@ -48,7 +48,24 @@ OutlinedButtonThemeData _outlinedButtonThemeData = OutlinedButtonThemeData(
 
 InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
   border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
+    borderRadius: BorderRadius.circular(6.0),
+    borderSide: BorderSide(color: ShartColors.neutral4, width: 1.0),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(6.0),
+    borderSide: BorderSide(color: ShartColors.neutral4, width: 1.0),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(6.0),
+    borderSide: BorderSide(color: ShartColors.primaryColor, width: 1.0),
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(6.0),
+    borderSide: BorderSide(color: Colors.red, width: 1.0),
+  ),
+  errorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(6.0),
+    borderSide: BorderSide(color: Colors.red, width: 1.0),
   ),
 );
 
